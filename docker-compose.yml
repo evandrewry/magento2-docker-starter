@@ -1,0 +1,48 @@
+version: '2'
+services:
+  web:
+    image: magento/web:latest
+    build: ./web
+    hostname: web.magento.docker
+    ports:
+      - '80:80'
+    volumes_from:
+      - appdata
+    environment:
+      - ENABLE_SENDMAIL=false
+  cron:
+    image: magento/cli:latest
+    build: ./cli
+    hostname: cron.magento.docker
+    working_dir: /var/www/html
+    command: /run-cron.sh
+    volumes_from:
+      - appdata
+    environment:
+      - ENABLE_SENDMAIL=false
+
+  cli:
+    image: magento/cli:latest
+    build: ./cli
+    hostname: cli.magento.docker
+    working_dir: /var/www/html
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    volumes_from:
+      - appdata
+    environment:
+      - AWS_ACCESS_KEY_ID=00000000000000000000
+      - AWS_SECRET_ACCESS_KEY=0000000000000000000000000000000000000000
+      - AWS_REGION=us-east-1
+      - AWS_BUCKET=magedbm
+      - AWS_MEDIA_BUCKET=magemm
+
+  appdata:
+    image: tianon/true
+    volumes:
+      - ./magento:/var/www/html
+      - ~/.composer:/var/www/.composer
+      - ~/.composer:/root/.composer
+        #- ./magento/php.ini:/usr/local/etc/php/conf.d/zz-magento.ini
+
