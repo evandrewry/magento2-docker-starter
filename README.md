@@ -3,7 +3,7 @@ This is a docker-compose configuration to run magento 2 with:
 - persistent file storage on the host machine via shared volumes
 - an external database server (in the cloud, running on the host machine, in another docker container you set up yourself, etc)
 - a cron container that runs the magento cron jobs
-- a cli container that can be attached to and has standard magento tooling installed (composer, magedbm, n98-magerun)
+- a cli container that can be attached to and has standard magento tooling installed (composer, n98-magerun)
 
 Mac Usage
 =========
